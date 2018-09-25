@@ -1,0 +1,25 @@
+ <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+<script>
+var connection = new WebSocket('ws://127.0.0.1:3030');
+  connection.onopen = function () {
+    // connection is opened and ready to use
+  };
+
+  connection.onerror = function (error) {
+    // an error occurred when sending/receiving data
+  };
+
+  connection.onmessage = function (message) {
+      //console.log(message,' - ',btoa(message.data));
+      var data = 'data:image/png;base64,'+(message.data);
+      console.log(data);
+      $('#pImg').attr('src',data);
+      //return console.log(message);
+  };
+</script>
+
+<img id="pImg" src="">
