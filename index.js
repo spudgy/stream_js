@@ -1,3 +1,5 @@
+
+const PORT = process.env.PORT || 8080;
 var fs = require('fs');
 var http = require('http');
 var server = http.createServer(function(request, response) {
@@ -8,15 +10,15 @@ var server = http.createServer(function(request, response) {
             });
     
 });
-server.listen(80, function() {
+server.listen(PORT, function() {
     console.log((new Date()) + ' Server is listening on port 1234');
 });
 
 const WebSocket = require('ws');
 
 const wss = new WebSocket.Server({
-    httpServer: server,
-    port: 3030 });
+    server: server,
+    path: '/ws' });
 
 function SendAll(data) {
     wss.clients.forEach(function(client) {       
