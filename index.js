@@ -3,7 +3,7 @@ const PORT = process.env.PORT || 8080;
 var fs = require('fs');
 var http = require('http');
 var server = http.createServer(function(request, response) {
-    console.log((new Date()) + ' Server connect on port 12342');
+    console.log((new Date()) + ' Server connect on port '+ PORT);
     fs.readFile('index.html', function(error, content) {
                 response.writeHead(200);
                 response.end(content, 'utf-8');
@@ -11,7 +11,7 @@ var server = http.createServer(function(request, response) {
     
 });
 server.listen(PORT, function() {
-    console.log((new Date()) + ' Server is listening on port 1234');
+    console.log((new Date()) + ' Server is listening on port '+PORT);
 });
 
 const WebSocket = require('ws');
