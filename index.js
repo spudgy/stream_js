@@ -17,8 +17,7 @@ server.listen(PORT, function() {
 const WebSocket = require('ws');
 
 const wss = new WebSocket.Server({
-    server: server,
-    path: '/ws' });
+    server: server });
 
 function SendAll(data) {
     wss.clients.forEach(function(client) {       

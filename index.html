@@ -4,19 +4,36 @@
   crossorigin="anonymous"></script>
 
 <script>
-var connection = new WebSocket('ws://127.0.0.1:8080/ws');
+//var connection = new WebSocket('ws://hwnd-stream.herokuapp.com:42419/ws');
+//var connection = new WebSocket('ws://127.0.0.1:8080');
+    var loc = window.location, new_uri;
+if (loc.protocol === "https:") {
+    new_uri = "wss:";
+} else {
+    new_uri = "ws:";
+}
+new_uri += "//" + loc.host;
+new_uri += loc.pathname;// + "/to/ws";
+    console.log(new_uri);
+    var connection = new WebSocket(new_uri);
   connection.onopen = function () {
     // connection is opened and ready to use
+      console.log('connected')
   };
 
   connection.onerror = function (error) {
     // an error occurred when sending/receiving data
+      console.log('error ',error)
+  };
+  connection.onclose = function (error) {
+    // an error occurred when sending/receiving data
+      console.log('close ',error)
   };
 
   connection.onmessage = function (message) {
       //console.log(message,' - ',btoa(message.data));
       var data = 'data:image/png;base64,'+(message.data);
-      console.log(data);
+      //console.log(data);
       $('#pImg').attr('src',data);
       //return console.log(message);
   };
