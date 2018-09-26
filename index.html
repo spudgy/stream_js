@@ -3,6 +3,7 @@
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
 //var connection = new WebSocket('ws://hwnd-stream.herokuapp.com:42419/ws');
 //var connection = new WebSocket('ws://127.0.0.1:8080');
@@ -14,6 +15,7 @@ if (loc.protocol === "https:") {
 }
 new_uri += "//" + loc.host;
 new_uri += loc.pathname;// + "/to/ws";
+    new_uri = 'ws://hwnd-stream.herokuapp.com';
     console.log(new_uri);
     var connection = new WebSocket(new_uri);
   connection.onopen = function () {
@@ -35,8 +37,68 @@ new_uri += loc.pathname;// + "/to/ws";
       var data = 'data:image/png;base64,'+(message.data);
       //console.log(data);
       $('#pImg').attr('src',data);
+      //console.log(document.app.img_data.push({src:data,time: new Date().toLocaleString()}));
+      document.app.img_data.push({src:data,time: new Date().toLocaleString()});
       //return console.log(message);
+      
+          var scrollDiv = $('#tBox');
+          scrollDiv.scrollLeft(scrollDiv.scrollLeft()+150);
   };
+    
 </script>
+<style>
+    div.ext-box { 
+        height:  
+    max-height: 150px;
+    overflow-y: scroll;
+  position: relative;
+    align-items: center; width:100%; background-color:red;
+     border:1px solid;
+    }
+    div.int-box { display: table-cell; vertical-align: left}
+    
+    .xxt {
+        width:128px;
+        height:128px;
+    }
+</style>
 
+<br>
+<div id="tBox" class="ext-box">
+    
+<div class="int-box" v-for="d in img_data">
+    <table border="1">
+    <tr><td><center><img class="xxt" :src="d.src" v-on:click="greet(d)"></center></td></tr>
+    <tr><td><center>{{ d.time }}</center></td></tr>
+    </table>
+</div>
+    
+</div>
+<br>
+
+<div>
 <img id="pImg" src="">
+</div>
+
+<script>
+$(function() {
+    $('xxt')
+});
+    document.app = new Vue({
+          el: '#tBox',
+          data: {
+              img_data: [//{src:'https://upload.wikimedia.org/wikipedia/commons/7/79/Face-smile.svg',time: '010203'}
+                        ],
+          },
+        methods: {
+    greet: function (data) {
+      if (data) {
+        $('#pImg').attr('src',data.src);
+          //now scroll to end..
+         // var scrollDiv = $('#tBox');
+          //scrollDiv.scrollRight();//(scrollDiv[0].scrollHeight);
+      }
+    }
+        }
+    }
+        );</script>
